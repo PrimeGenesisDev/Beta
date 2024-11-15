@@ -5,6 +5,11 @@
 /.pnp
 .pnp.js
 
+.vs/
+*.vsidx
+node_modules/
+dist/
+
 # testing
 /coverage
 

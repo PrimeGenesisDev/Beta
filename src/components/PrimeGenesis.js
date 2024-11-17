@@ -14,62 +14,42 @@ const PrimeGenesis = () => {
         {
             name: "Prime Genesis Token Beta I (PGTBI)",
             description: "The first Prime Genesis Token, \n Beta Test I",
+            isActive: false, // Moneta inattiva
             parameters: [
-                "Dev holds 80% of his asset* locked forever",
+              /*  "Dev holds 80% of his asset* locked forever",
                 "Maximum 10% weekly sell limit",
                 "*Created on Pumpfun",
-                "Dev: Prime Genesis Dev"
+                "Dev: Prime Genesis Dev", */
+                "This token has been retired due to lack of trading activity. Liquidity has been withdrawn in accordance with our transparency rules. You can check them on Faq section."
             ],
             links: {
-                website: "#",
-                telegram: "#",
+                website: "https://x.com/PrimeGenesisDev",
+                telegram: "https://t.me/primegenesisdev",
                 contract: "#"
             }
         },
         {
             name: "Prime Genesis Token Beta II (PGTBII)",
             description: "The third Prime Genesis Token, Beta Test II",
+            isActive: true, // Moneta attiva
             parameters: [
                 "Launching soon"
             ],
             links: {
-                website: "#",
-                telegram: "#",
+                website: "https://x.com/PrimeGenesisDev",
+                telegram: "https://t.me/primegenesisdev",
                 contract: "#"
             }
-        },
-        /*{
-            name: "Prime Genesis Token Beta II (PGTBII)",
-            description: "The second Prime Genesis Token, Beta Test II",
-            parameters: [
-                "Dev holds 80% of his assets* locked forever",
-                "Maximum 10% weekly sell limit",
-                "*Created on Pumpfun",
-                "Launching 11/22/24",
-                "Dev: Prime Genesis Dev"
-            ],
-            links: {
-                website: "#",
-                telegram: "#",
-                contract: "#"
-            }
-        },
-        {
-            name: "Prime Genesis Token Beta III (PGTBIII)",
-            description: "The third Prime Genesis Token, Beta Test III",
-            parameters: [
-                "Launching soon"
-            ],
-            links: {
-                website: "#",
-                telegram: "#",
-                contract: "#"
-            }
-        }*/
+        }
     ];
+    //oooooooooooooooooo
+    //ooooooooooooooooooooo
+    //oooooooooooooooooooooooooooooooooooooo
+    //ooooooooooooooooooooooooooooooooooooooooooooo
 
     return (
-        <div className="min-h-screen bg-gray-900 text-gray-100">
+        <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col">
+            <div className="flex-grow">
             {/* Header */}
             <header className="border-b border-gray-800 bg-gray-900/95 sticky top-0 z-50 backdrop-blur-sm">
                 <nav className="container mx-auto px-6 py-4">
@@ -79,7 +59,7 @@ const PrimeGenesis = () => {
                             <span className="ml-2 text-xl font-bold">Prime Genesis</span>
                         </div>
                         <div className="flex space-x-6">
-                            {['home', 'coins', 'faq'].map((section) => ( //QUI VA MESSO ,'forNewbies' section
+                            {['home', 'coins', 'faq'].map((section) => (
                                 <button
                                     key={section}
                                     onClick={() => setCurrentSection(section)}
@@ -152,18 +132,20 @@ const PrimeGenesis = () => {
                             {coins.map((coin, index) => (
                                 <div
                                     key={index}
-                                    className="bg-gray-800 rounded-lg p-6 transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/10"
+                                    className={`rounded-lg p-6 transition-all duration-200 
+                                        ${coin.isActive ? 'bg-gray-800 hover:shadow-lg hover:shadow-blue-500/10' : 'bg-gray-700 opacity-50'}
+                                    `}
                                 >
-                                    <h3 className="text-xl font-bold mb-2 flex items-center">
+                                    <h3 className={`text-xl font-bold mb-2 flex items-center ${coin.isActive ? '' : 'text-gray-500'}`}>
                                         {coin.name}
-                                        <Shield className="ml-2 h-4 w-4 text-blue-500" />
+                                        <Shield className={`ml-2 h-4 w-4 ${coin.isActive ? 'text-blue-500' : 'text-gray-500'}`} />
                                     </h3>
-                                    <p className="text-gray-400 mb-4">{coin.description}</p>
+                                    <p className={`mb-4 ${coin.isActive ? 'text-gray-400' : 'text-gray-500'}`}>{coin.description}</p>
                                     <div className="mb-4">
-                                        <h4 className="font-semibold mb-2">Parameters:</h4>
-                                        <ul className="list-disc pl-5 text-gray-400">
+                                        <h4 className={`font-semibold mb-2 ${coin.isActive ? '' : 'text-gray-500'}`}>Parameters:</h4>
+                                        <ul className={`list-disc pl-5 ${coin.isActive ? 'text-gray-400' : 'text-gray-500'}`}>
                                             {coin.parameters.map((param, idx) => (
-                                                <li key={idx} className="hover:text-blue-400 transition-colors">{param}</li>
+                                                <li key={idx} className={`transition-colors ${coin.isActive ? 'hover:text-blue-400' : ''}`}>{param}</li>
                                             ))}
                                         </ul>
                                     </div>
@@ -172,7 +154,7 @@ const PrimeGenesis = () => {
                                             <a
                                                 key={key}
                                                 href={value}
-                                                className="text-blue-500 hover:text-blue-400 flex items-center"
+                                                className={`flex items-center ${coin.isActive ? 'text-blue-500 hover:text-blue-400' : 'text-gray-500'}`}
                                             >
                                                 {key.charAt(0).toUpperCase() + key.slice(1)}
                                                 <ExternalLink className="ml-1 h-4 w-4" />
@@ -212,14 +194,24 @@ const PrimeGenesis = () => {
                             <div className="bg-gray-800 rounded-lg p-6 transition-all duration-200 hover:shadow-lg">
                                 <h3 className="text-xl font-bold mb-2">Can the meme coin drop?</h3>
                                 <p className="text-gray-400">
-                                    Yes, because while we're on PumpFun, the liquidity isn't fully controlled by us. We're actively working on improving this. For now, we can only ensure the security of our own portion. This is one of our primary goals, and we're focused on achieving it as we continue to grow.
+                                    Yes, because while we're on PumpFun, the liquidity isn't fully controlled by us. We're actively working on improving this. For now, we can only ensure the security of our own portion.
+                                    This is one of our primary goals, and we're focused on achieving it as we continue to grow.
                                 </p>
                             </div>
 
                             <div className="bg-gray-800 rounded-lg p-6 transition-all duration-200 hover:shadow-lg">
+                                <h3 className="text-xl font-bold mb-2">What happens if a token has no trading activity?</h3>
+                                <p className="text-gray-400">
+                                    If a token experiences no trading activity for 24 hours, we reserve the right to withdraw the liquidity. This decision is always made in accordance with our transparency rules, and a public announcement will be issued on all platforms at least one hour in advance to inform the community.
+                                    Our primary goal is to ensure that resources are used efficiently and responsibly while maintaining trust with our investors.
+                                </p>
+                            </div>
+
+
+                            <div className="bg-gray-800 rounded-lg p-6 transition-all duration-200 hover:shadow-lg">
                                 <h3 className="text-xl font-bold mb-2">Could I share one of my memecoins here?</h3>
                                 <p className="text-gray-400">
-                                    We're currently in beta testing, and that feature isn't available just yet.
+                                    Not yet, we're currently in beta testing, and that feature isn't available just yet.
                                 </p>
                             </div>
 
@@ -260,7 +252,8 @@ const PrimeGenesis = () => {
                         </div>
                     </div>
                 </section>
-            )}
+                )}
+            </div>
 
             {/* Footer */}
             <footer className="bg-gray-800 mt-20">

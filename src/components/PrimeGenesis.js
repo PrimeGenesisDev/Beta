@@ -1,45 +1,46 @@
 import React, { useState, useEffect } from 'react';
+import { Send, Twitter, Github, Copy, ExternalLink } from 'lucide-react';
 import CustomLogo from './test.svg';
-import { Shield, Send, Twitter, Github, ExternalLink, ArrowRight } from 'lucide-react';
 
 const PrimeGenesis = () => {
     const [currentSection, setCurrentSection] = useState('home');
     const [isVisible, setIsVisible] = useState(false);
+    const [copiedContract, setCopiedContract] = useState('');
 
     useEffect(() => {
         setIsVisible(true);
     }, []);
 
+    const handleCopyContract = (contract) => {
+        navigator.clipboard.writeText(contract);
+        setCopiedContract(contract);
+        setTimeout(() => setCopiedContract(''), 2000);
+    };
+
+    
+
     const coins = [
         {
             name: "Prime Genesis Token Beta I (PGTBI)",
             description: "The first Prime Genesis Token, \n Beta Test I",
-            isActive: false, // Moneta inattiva
+            isActive: false,
             parameters: [
-              /*  "Dev holds 80% of his asset* locked forever",
-                "Maximum 10% weekly sell limit",
-                "*Created on Pumpfun",
-                "Dev: Prime Genesis Dev", */
                 "This token has been retired due to lack of trading activity. Liquidity has been withdrawn in accordance with our transparency rules. You can check them on Faq section."
             ],
-            links: {
-                website: "https://x.com/PrimeGenesisDev",
-                telegram: "https://t.me/primegenesisdev",
-                contract: "#"
-            }
+            contract: "0x...",
+            exchange: "#",
+            image: require('./img/Coin1.png')
         },
         {
             name: "Prime Genesis Token Beta II (PGTBII)",
             description: "The third Prime Genesis Token, Beta Test II",
-            isActive: true, // Moneta attiva
+            isActive: true,
             parameters: [
                 "Launching soon"
             ],
-            links: {
-                website: "https://x.com/PrimeGenesisDev",
-                telegram: "https://t.me/primegenesisdev",
-                contract: "#"
-            }
+            contract: "0x...",
+            exchange: "#",
+            image: require('./img/Coin1.png')
         }
     ];
     //oooooooooooooooooo
@@ -124,49 +125,86 @@ const PrimeGenesis = () => {
                 </section>
             )}
 
-            {/* Coins Section */}
-            {currentSection === 'coins' && (
-                <section className="py-12">
-                    <div className="container mx-auto px-6">
-                        <div className="grid gap-8 md:grid-cols-2">
-                            {coins.map((coin, index) => (
-                                <div
-                                    key={index}
-                                    className={`rounded-lg p-6 transition-all duration-200 
-                                        ${coin.isActive ? 'bg-gray-800 hover:shadow-lg hover:shadow-blue-500/10' : 'bg-gray-700 opacity-50'}
-                                    `}
-                                >
-                                    <h3 className={`text-xl font-bold mb-2 flex items-center ${coin.isActive ? '' : 'text-gray-500'}`}>
-                                        {coin.name}
-                                        <Shield className={`ml-2 h-4 w-4 ${coin.isActive ? 'text-blue-500' : 'text-gray-500'}`} />
-                                    </h3>
-                                    <p className={`mb-4 ${coin.isActive ? 'text-gray-400' : 'text-gray-500'}`}>{coin.description}</p>
-                                    <div className="mb-4">
-                                        <h4 className={`font-semibold mb-2 ${coin.isActive ? '' : 'text-gray-500'}`}>Parameters:</h4>
-                                        <ul className={`list-disc pl-5 ${coin.isActive ? 'text-gray-400' : 'text-gray-500'}`}>
-                                            {coin.parameters.map((param, idx) => (
-                                                <li key={idx} className={`transition-colors ${coin.isActive ? 'hover:text-blue-400' : ''}`}>{param}</li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                    <div className="flex space-x-4">
-                                        {Object.entries(coin.links).map(([key, value]) => (
-                                            <a
-                                                key={key}
-                                                href={value}
-                                                className={`flex items-center ${coin.isActive ? 'text-blue-500 hover:text-blue-400' : 'text-gray-500'}`}
+                {/* Coins Section */}
+                {currentSection === 'coins' && (
+                    <section className="py-12">
+                        <div className="container mx-auto px-6">
+                            <div className="grid gap-8 md:grid-cols-2">
+                                {coins.map((coin, index) => (
+                                    <div
+                                        key={index}
+                                        className={`rounded-lg p-6 transition-all duration-200 relative overflow-hidden
+                                ${coin.isActive ? 'bg-gray-800 hover:shadow-lg hover:shadow-blue-500/10' : 'bg-gray-700 opacity-50'}
+                            `}
+                                    >
+                                        {/* Main Content */}
+                                        <div className="pb-16"> {/* Added padding to prevent content overlap with buttons */}
+                                            <div className="flex items-start space-x-4 mb-4">
+                                                <img
+                                                    src={coin.image}
+                                                    alt={coin.name}
+                                                    className={`w-16 h-16 rounded-full ${coin.isActive ? 'opacity-100' : 'opacity-50'}`}
+                                                />
+                                                <div>
+                                                    <h3 className={`text-xl font-bold ${coin.isActive ? '' : 'text-gray-500'}`}>
+                                                        {coin.name}
+                                                    </h3>
+                                                    <p className={`${coin.isActive ? 'text-gray-400' : 'text-gray-500'}`}>
+                                                        {coin.description}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <h4 className={`font-semibold mb-2 ${coin.isActive ? '' : 'text-gray-500'}`}>
+                                                    Parameters:
+                                                </h4>
+                                                <ul className={`list-disc pl-5 ${coin.isActive ? 'text-gray-400' : 'text-gray-500'}`}>
+                                                    {coin.parameters.map((param, idx) => (
+                                                        <li key={idx} className={`transition-colors ${coin.isActive ? 'hover:text-blue-400' : ''}`}>
+                                                            {param}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        {/* Bottom Buttons */}
+                                        <div className="absolute bottom-0 left-0 right-0 grid grid-cols-2">
+                                            <button
+                                                onClick={() => handleCopyContract(coin.contract)}
+                                                disabled={!coin.isActive}
+                                                className={`py-4 flex items-center justify-center space-x-2 transition-all duration-200 border-t border-r border-gray-700
+                                        ${coin.isActive
+                                                        ? 'bg-gray-900/50 hover:bg-blue-600 text-gray-300 hover:text-white'
+                                                        : 'bg-gray-600/30 text-gray-500 cursor-not-allowed'
+                                                    }`}
                                             >
-                                                {key.charAt(0).toUpperCase() + key.slice(1)}
-                                                <ExternalLink className="ml-1 h-4 w-4" />
+                                                <Copy className="h-4 w-4" />
+                                                <span>
+                                                    {copiedContract === coin.contract ? 'Copied!' : 'Copy Contract'}
+                                                </span>
+                                            </button>
+                                            <a
+                                                href={coin.exchange}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className={`py-4 flex items-center justify-center space-x-2 transition-all duration-200 border-t border-gray-700
+                                        ${coin.isActive
+                                                        ? 'bg-gray-900/50 hover:bg-blue-600 text-gray-300 hover:text-white'
+                                                        : 'bg-gray-600/30 text-gray-500 cursor-not-allowed'
+                                                    }`}
+                                            >
+                                                <ExternalLink className="h-4 w-4" />
+                                                <span>View on Exchange</span>
                                             </a>
-                                        ))}
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                </section>
-            )}
+                    </section>
+                )}
 
             {/* FAQ Section */}
             {currentSection === 'faq' && (

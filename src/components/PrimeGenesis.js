@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Send, Twitter, Mail, Copy, ExternalLink } from 'lucide-react';
 import CustomLogo from './test.svg';
 
@@ -7,9 +7,17 @@ const PrimeGenesis = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [copiedContract, setCopiedContract] = useState('');
 
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+    const toggleMobileMenu = () => {
+        setIsMobileMenuOpen(!isMobileMenuOpen);
+    };
+
     useEffect(() => {
         setIsVisible(true);
     }, []);
+
+
 
     const handleCopyContract = (contract) => {
         navigator.clipboard.writeText(contract);
@@ -17,20 +25,20 @@ const PrimeGenesis = () => {
         setTimeout(() => setCopiedContract(''), 2000);
     };
 
-    
+
 
     const coins = [
-     /*   {
-            name: "Prime Genesis Token Beta I (PGTBI)",
-            description: "The first Prime Genesis Token, \n Beta Test I",
-            isActive: false,
-            parameters: [
-                "This token has been retired due to lack of trading activity. Liquidity has been withdrawn in accordance with our transparency rules. You can check them on Faq section."
-            ],
-            contract: "0x...",
-            exchange: "#",
-            image: require('./img/Coin1.png')
-        },*/
+        /*   {
+               name: "Prime Genesis Token Beta I (PGTBI)",
+               description: "The first Prime Genesis Token, \n Beta Test I",
+               isActive: false,
+               parameters: [
+                   "This token has been retired due to lack of trading activity. Liquidity has been withdrawn in accordance with our transparency rules. You can check them on Faq section."
+               ],
+               contract: "0x...",
+               exchange: "#",
+               image: require('./img/Coin1.png')
+           },*/
         {
             name: "Prime Genesis Community Token I",
             description: "This will be our first creation ",
@@ -51,86 +59,122 @@ const PrimeGenesis = () => {
     return (
         <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col">
             <div className="flex-grow">
-            {/* Header */}
-            <header className="border-b border-gray-800 bg-gray-900/95 sticky top-0 z-50 backdrop-blur-sm">
-                <nav className="container mx-auto px-6 py-4">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center group">
-                            <img src={CustomLogo} className="h-8 w-18 text-blue-500 transition-transform duration-300 ease-in-out group-hover:rotate-12" alt="Custom Logo" />
-                            <span className="ml-2 text-xl font-bold">Prime Genesis</span>
-                        </div>
-                        <div className="flex space-x-6">
-                            {['home', 'mission','coins', 'faq'].map((section) => (
-                                <button
-                                    key={section}
-                                    onClick={() => setCurrentSection(section)}
-                                    className={`relative px-2 py-1 transition-colors duration-200 ${currentSection === section ? 'text-blue-500' : 'text-gray-300 hover:text-blue-400'
-                                        }`}
-                                >
-                                    {section.charAt(0).toUpperCase() + section.slice(1)}
-                                    {currentSection === section && (
-                                        <div className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-500" />
-                                    )}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                </nav>
-            </header>
+                <header className="border-b border-gray-800 bg-gray-900/95 sticky top-0 z-50 backdrop-blur-sm">
+                    <nav className="container mx-auto px-6 py-4">
+                        <div className="flex items-center justify-between">
+                            {/* Logo */}
+                            <div className="flex items-center group">
+                                <img
+                                    src={CustomLogo}
+                                    className="h-8 w-18 transition-transform duration-300 ease-in-out group-hover:rotate-12"
+                                    alt="Custom Logo"
+                                />
+                                <span className="ml-2 text-xl font-bold">Prime Genesis</span>
+                            </div>
 
-            {/* Hero Section */}
-            {currentSection === 'home' && (
-                <section className={`py-20 text-center transform transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'
-                    }`}>
-                    <div className="container mx-auto px-6">
-                        <h1 className="text-6xl font-bold mb-4">Trust</h1>
+                            {/* Menu Desktop */}
+                            <div className="hidden md:flex space-x-6">
+                                {['home', 'mission', 'coins', 'faq'].map((section) => (
+                                    <button
+                                        key={section}
+                                        onClick={() => {
+                                            setCurrentSection(section);
+                                            setIsMobileMenuOpen(false);  // Chiude il menu mobile
+                                            window.scrollTo(0, 0);       // Reset dello scroll
+                                        }}
+                                        className={`relative px-2 py-1 transition-colors duration-200 ${currentSection === section ? 'text-blue-500' : 'text-gray-300 hover:text-blue-400'
+                                            }`}
+                                    >
+                                        {section.charAt(0).toUpperCase() + section.slice(1)}
+                                        {currentSection === section && (
+                                            <div className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-500" />
+                                        )}
+                                    </button>
+                                ))}
+                            </div>
+
+                            {/* Pulsante Hamburger per Mobile */}
+                            <div className="md:hidden">
+                                <button onClick={toggleMobileMenu} className="text-gray-300 hover:text-blue-400 focus:outline-none">
+                                    ☰
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Menu Mobile (Dropdown) */}
+                        {/* Menu Mobile (Dropdown) */}
+                        {isMobileMenuOpen && (
+                            <div className="flex flex-col md:hidden space-y-4 mt-4 max-h-[calc(100vh-50px)] overflow-y-auto">
+                                {['home', 'mission', 'coins', 'faq'].map((section) => (
+                                    <button
+                                        key={section}
+                                        onClick={() => {
+                                            setCurrentSection(section);
+                                            setIsMobileMenuOpen(false);  // Chiude il menu mobile
+                                            window.scrollTo(0, 0);       // Reset dello scroll
+                                        }}
+                                        className={`relative px-4 py-2 transition-colors duration-200 ${currentSection === section ? 'text-blue-500' : 'text-gray-300 hover:text-blue-400'
+                                            }`}
+                                    >
+                                        {section.charAt(0).toUpperCase() + section.slice(1)}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </nav>
+                </header>
+
+                {/* Hero Section */}
+                {currentSection === 'home' && (
+                    <section className={`py-20 text-center transform transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'
+                        }`}>
+                        <div className="container mx-auto px-6">
+                            <h1 className="text-6xl font-bold mb-4">Trust</h1>
                             <p className="text-2xl font-bold mb-6 text-gray-300">Trust. Transparency. Together.
                             </p>
 
-                        <div className="max-w-2xl mx-auto space-y-6 mb-12">
-                            <p className="text-xl text-gray-400">
-                                    Every coin listed on Prime Genesis adheres to strict, transparent rules.
-                            </p>
-                            <p className="text-xl text-gray-400">
+                            <div className="max-w-2xl mx-auto space-y-6 mb-12">
+
+                                <p className="text-xl text-gray-400">
                                     Our mission is to create a trusted environment where investors are true partners in building a better crypto future.
-                        
-                            </p>
-                            
-                            <p className="text-2xl font-bold text-gray-300">
-                                Stay Hungry, Stay Bullish
+
+                                </p>
+
+                                <p className="text-2xl font-bold text-gray-300">
+                                    Stay Hungry, Stay Bullish
                                 </p>
 
                                 <p className="text-xl text-blue-400 font-semibold">
                                     Join us as we build the first community-driven HODL coin. Together, we're proving that crypto can be different.
                                 </p>
-                        </div>
+                            </div>
 
-                        <div className="flex justify-center space-x-4">
-                            <a
-                                href="https://t.me/primegenesisdev"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg flex items-center transition-transform duration-200 hover:scale-105"
-                            >
-                                <Send className="mr-2 h-5 w-5" />
-                                Join Telegram
-                            </a>
-                            <a
-                                href="https://x.com/PrimeGenesisCEO"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="bg-gray-800 hover:bg-gray-700 px-6 py-3 rounded-lg flex items-center transition-transform duration-200 hover:scale-105"
-                            >
-                                <Twitter className="mr-2 h-5 w-5" />
-                                Follow Updates
-                            </a>
+                            <div className="flex justify-center space-x-4">
+                                <a
+                                    href="https://t.me/primegenesisdev"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg flex items-center transition-transform duration-200 hover:scale-105"
+                                >
+                                    <Send className="mr-2 h-5 w-5" />
+                                    Join Telegram
+                                </a>
+                                <a
+                                    href="https://x.com/PrimeGenesisCEO"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="bg-gray-800 hover:bg-gray-700 px-6 py-3 rounded-lg flex items-center transition-transform duration-200 hover:scale-105"
+                                >
+                                    <Twitter className="mr-2 h-5 w-5" />
+                                    Follow Updates
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                </section>
-            )}
+                    </section>
+                )}
 
-            {/* Coins Section */}
-            {currentSection === 'coins' && (
+                {/* Coins Section */}
+                {currentSection === 'coins' && (
                     <section className="py-12">
                         <div className="container mx-auto px-6">
                             <div className="grid gap-8 md:grid-cols-2">
@@ -210,60 +254,60 @@ const PrimeGenesis = () => {
                     </section>
                 )}
 
-            {/* FAQ Section */}
-            {currentSection === 'faq' && (
-                <section className="py-12">
-                    <div className="container mx-auto px-6">
-                        <h2 className="text-3xl font-bold mb-8">Frequently Asked Questions</h2>
-                        <div className="space-y-6">
-                            
-                        <div className="bg-gray-800 rounded-lg p-6 transition-all duration-200 hover:shadow-lg">
+                {/* FAQ Section */}
+                {currentSection === 'faq' && (
+                    <section className="py-12">
+                        <div className="container mx-auto px-6">
+                            <h2 className="text-3xl font-bold mb-8">Frequently Asked Questions</h2>
+                            <div className="space-y-6">
+
+                                <div className="bg-gray-800 rounded-lg p-6 transition-all duration-200 hover:shadow-lg">
                                     <h3 className="text-xl font-bold mb-2">What makes Prime Genesis different from other projects?</h3>
-                                <p className="text-gray-400">
+                                    <p className="text-gray-400">
                                         Prime Genesis focuses on long-term trust rather than short-term gains. We're not here to pump and dump;
                                         we're building a sustainable, community-driven ecosystem where everyone benefits together.
-                                </p>
-                                </div> 
+                                    </p>
+                                </div>
 
-                        <div className="bg-gray-800 rounded-lg p-6 transition-all duration-200 hover:shadow-lg">
+                                <div className="bg-gray-800 rounded-lg p-6 transition-all duration-200 hover:shadow-lg">
                                     <h3 className="text-xl font-bold mb-2">How is the community involved in decision-making?</h3>
                                     <p className="text-gray-400">
                                         Our community isn't just a bystander, it's the core of our project.
                                         Key decisions are made transparently, and community votes will play a significant role in shaping the future direction.
                                     </p>
-                                </div> 
+                                </div>
 
-                        <div className="bg-gray-800 rounded-lg p-6 transition-all duration-200 hover:shadow-lg">
+                                <div className="bg-gray-800 rounded-lg p-6 transition-all duration-200 hover:shadow-lg">
                                     <h3 className="text-xl font-bold mb-2">What's next after the first HODL coin?</h3>
                                     <p className="text-gray-400">
                                         Phase 2! Once we prove ourselves as a resilient community, we'll expand into more advanced DeFi initiatives. Our roadmap is ambitious, and this is just the beginning.
                                     </p>
-                                </div> 
+                                </div>
 
-                        <div className="bg-gray-800 rounded-lg p-6 transition-all duration-200 hover:shadow-lg">
-                                <h3 className="text-xl font-bold mb-2">Can I share one of my coins here on your list?</h3>
-                                <p className="text-gray-400">
-                                    Not yet, we're currently in beta, and that feature isn't available just yet. We can talk about but you have to prove you are a reliable dev.
-                                </p>
-                            </div> 
-                            
+                                <div className="bg-gray-800 rounded-lg p-6 transition-all duration-200 hover:shadow-lg">
+                                    <h3 className="text-xl font-bold mb-2">Can I share one of my coins here on your list?</h3>
+                                    <p className="text-gray-400">
+                                        Not yet, we're currently in beta, and that feature isn't available just yet. We can talk about but you have to prove you are a reliable dev.
+                                    </p>
+                                </div>
 
-                        <div className="bg-gray-800 rounded-lg p-6 transition-all duration-200 hover:shadow-lg">
-                                <h3 className="text-xl font-bold mb-2">Any question?</h3>
-                                <p className="text-gray-400">
+
+                                <div className="bg-gray-800 rounded-lg p-6 transition-all duration-200 hover:shadow-lg">
+                                    <h3 className="text-xl font-bold mb-2">Any question?</h3>
+                                    <p className="text-gray-400">
                                         * You can send us a mail primegenesisdev@gmail.com
                                         <br /> * Contact on X
-                                        
-                                </p>
-                            </div>
 
+                                    </p>
+                                </div>
+
+                            </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
                 )}
 
-            {/* Mission */}
-            {currentSection === 'mission' && (
+                {/* Mission */}
+                {currentSection === 'mission' && (
                     <section className="py-12 bg-gray-900">
                         <div className="container mx-auto px-6">
                             <div className="max-w-4xl mx-auto">
@@ -351,37 +395,39 @@ const PrimeGenesis = () => {
                                 </div>
                             </div>
                         </div>
-                    </section> 
-            )}
+                    </section>
+                )}
 
 
-            {/* For Newbies Section */}
-            {currentSection === 'forNewbies' && (
-                <section className="py-12">
-                    <div className="container mx-auto px-6">
-                        <h2 className="text-3xl font-bold mb-8">Getting Started</h2>
-                        <div className="grid gap-8 md:grid-cols-2">
-                            <div className="bg-gray-800 rounded-lg p-6 transition-all duration-200 hover:shadow-lg">
-                                <h3 className="text-xl font-bold mb-4">Understanding Crypto</h3>
-                                <p className="text-gray-400 mb-4">New to cryptocurrency? Start here to learn the basics of blockchain technology and digital assets.</p>
-                                <a href="#" className="text-blue-500 hover:text-blue-400 flex items-center">
-                                    Learn More
-                                    <ArrowRight className="ml-2 h-4 w-4" />
-                                </a>
-                            </div>
-                            <div className="bg-gray-800 rounded-lg p-6 transition-all duration-200 hover:shadow-lg">
-                                <h3 className="text-xl font-bold mb-4">Safety First</h3>
-                                <p className="text-gray-400 mb-4">Learn how to identify legitimate projects and protect your investments from scams.</p>
-                                <a href="#" className="text-blue-500 hover:text-blue-400 flex items-center">
-                                    Security Guide
-                                    <ArrowRight className="ml-2 h-4 w-4" />
-                                </a>
+                {/* For Newbies Section */}
+                {currentSection === 'forNewbies' && (
+                    <section className="py-12">
+                        <div className="container mx-auto px-6">
+                            <h2 className="text-3xl font-bold mb-8">Getting Started</h2>
+                            <div className="grid gap-8 md:grid-cols-2">
+                                <div className="bg-gray-800 rounded-lg p-6 transition-all duration-200 hover:shadow-lg">
+                                    <h3 className="text-xl font-bold mb-4">Understanding Crypto</h3>
+                                    <p className="text-gray-400 mb-4">New to cryptocurrency? Start here to learn the basics of blockchain technology and digital assets.</p>
+                                    <a href="#" className="text-blue-500 hover:text-blue-400 flex items-center">
+                                        Learn More
+                                        <ArrowRight className="ml-2 h-4 w-4" />
+                                    </a>
+                                </div>
+                                <div className="bg-gray-800 rounded-lg p-6 transition-all duration-200 hover:shadow-lg">
+                                    <h3 className="text-xl font-bold mb-4">Safety First</h3>
+                                    <p className="text-gray-400 mb-4">Learn how to identify legitimate projects and protect your investments from scams.</p>
+                                    <a href="#" className="text-blue-500 hover:text-blue-400 flex items-center">
+                                        Security Guide
+                                        <ArrowRight className="ml-2 h-4 w-4" />
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </section>
+
+                    </section>
                 )}
             </div>
+
 
             {/* Footer */}
             <footer className="bg-gray-800 mt-20">
@@ -415,7 +461,7 @@ const PrimeGenesis = () => {
                                 <Mail className="h-6 w-6" />
                             </a>
 
-                          
+
                         </div>
                     </div>
                 </div>

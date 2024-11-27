@@ -15,3 +15,27 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+/* Scrollbar principale */
+::-webkit-scrollbar {
+    width: 8px; /* Larghezza della scrollbar */
+    height: 8px; /* Altezza della scrollbar orizzontale */
+}
+
+/* Track (sfondo della scrollbar) */
+::-webkit-scrollbar-track {
+    background: #1a1a1a; /* Colore sfondo dark */
+}
+
+/* Thumb (la parte mobile della scrollbar) */
+::-webkit-scrollbar-thumb {
+    background-color: #555; /* Colore dark della thumb */
+    border-radius: 10px; /* Angoli arrotondati */
+    border: 2px solid #1a1a1a; /* Bordo per separare la thumb dal track */
+}
+
+    /* Thumb al passaggio del mouse */
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #888; /* Colore al passaggio del mouse */
+    }
